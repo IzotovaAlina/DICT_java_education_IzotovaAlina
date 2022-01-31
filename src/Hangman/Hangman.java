@@ -10,8 +10,10 @@ public class Hangman {
     public static void main(String[] args) {
         ArrayList choice_guess = new ArrayList();
         Scanner Scanner = new Scanner(System.in);
-        String[] strArray = {"java", "python", "javascript", "kotlin"};
+        String[] strArray = {"javascript", "python", "java", "kotlin"};
+
         System.out.println("HANGMAN");
+
         int rnd = new Random().nextInt(strArray.length);
         String hiding = strArray[rnd];
         String temp_word = hiding.replaceAll("[a-z]", "-");
@@ -20,11 +22,20 @@ public class Hangman {
         int i = 0;
         while (i < 8) {
             System.out.print("\nInput a letter:");
-            String input = Scanner.nextLine();
+            String input = Scanner.next();
+
+            if (!input.matches(".")) {
+                System.out.println("You should input a single letter");
+                continue;
+            }
+
+            if (!input.matches("[a-z]")) {
+                System.out.println("Please enter a lowercase English letter");
+                continue;
+            }
 
             if (choice_guess.contains(input.charAt(0))) {
-                System.out.println("No Improvements");
-                i++;
+                System.out.println("You've already guessed this letter");
                 continue;
             }
 
