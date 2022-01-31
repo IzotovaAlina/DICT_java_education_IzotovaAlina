@@ -13,7 +13,7 @@ public class CoffeeMachine {
         CoffeeMachine main = new CoffeeMachine();
         main.MENU();
     }
-
+    //Combined stages 4 and 5
     public void MENU() {
         Scanner SCANNER = new Scanner(System.in);
         boolean isexit = false;
@@ -25,7 +25,7 @@ public class CoffeeMachine {
         }
         SCANNER.close();
     }
-
+    //Combined stages 4 and 5
     private void Existence() {
         System.out.println("The coffee machine has: ");
         System.out.println(this.water + " of water");
@@ -34,7 +34,7 @@ public class CoffeeMachine {
         System.out.println(this.cups + " of disposable cups");
         System.out.println("$" + this.money + " of money");
     }
-
+    //Combined stages 4 and 5
     private void Completion(int water, int milk, int beans, int money) {
         if (cups > 0 && this.water - water >= 0 && this.milk - milk >= 0 && this.beans - beans >= 0) {
             System.out.println("I have enough resources, making you a coffee!");
