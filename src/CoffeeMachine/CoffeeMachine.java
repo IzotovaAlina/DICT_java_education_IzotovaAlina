@@ -2,36 +2,102 @@ package CoffeeMachine;
 import java.util.Scanner;
 
 public class CoffeeMachine {
-    public static void main(String[] arg) {
-        Scanner Scanner = new Scanner(System.in);
+    int water = 400;
+    int milk = 540;
+    int beans = 120;
+    int cups = 9;
+    int money = 550;
 
-        System.out.print("Write how many ml of water the coffee machine has: ");
-        int water = Scanner.nextInt();
 
-        System.out.print("Write how many ml of milk the coffee machine has: ");
-        int milk = Scanner.nextInt();
+    public static void main(String[] args) {
+        CoffeeMachine main = new CoffeeMachine();
+        main.MENU();
+    }
 
-        System.out.print("Write how many grams of coffee beans the coffee machine has: ");
-        int beans = Scanner.nextInt();
+    public void MENU() {
+        Scanner SCANNER = new Scanner(System.in);
+        boolean isexit = false;
+        while (!isexit) {
+            System.out.println();
+            System.out.println("Write action (buy, fill, take, remaining, exit): ");
+            String action = SCANNER.next();
+            isexit = modifyState(action, SCANNER);
+        }
+        SCANNER.close();
+    }
 
-        System.out.print("Write how many cups of coffee you will need: ");
-        int cups = Scanner.nextInt();
+    private void Existence() {
+        System.out.println("The coffee machine has: ");
+        System.out.println(this.water + " of water");
+        System.out.println(this.milk + " of milk");
+        System.out.println(this.beans + " of coffee beans");
+        System.out.println(this.cups + " of disposable cups");
+        System.out.println("$" + this.money + " of money");
+    }
 
-        int waterCup = water / 200;
-        int milkCup = milk / 50;
-        int beansCup = beans / 15;
-
-        int limit = Math.min(waterCup, Math.min(milkCup, beansCup));
-
-        if (cups > limit) {
-            System.out.println("No, I can make only " + limit + " cup(s) of coffee");
-
-        } else if (cups == limit) {
-            System.out.println("Yes, I can make that amount of coffee");
-
+    private void Completion(int water, int milk, int beans, int money) {
+        if (cups > 0 && this.water - water >= 0 && this.milk - milk >= 0 && this.beans - beans >= 0) {
+            System.out.println("I have enough resources, making you a coffee!");
+            this.cups--;
+            this.water -= water;
+            this.milk -= milk;
+            this.beans -= beans;
+            this.money += money;
         } else {
-            int remainder = limit - cups;
-            System.out.println("Yes, I can make that amount of coffee (and even " + remainder + " more than that)");
+            System.out.println("Sorry, not enough " +
+                    (cups <= 0 ? "cups" : this.water - water < 0 ? "water" : this.milk - milk < 0 ? "milk" : "beans")
+                    + "!");
         }
     }
+
+    private boolean modifyState(String action, Scanner in) {
+        System.out.println();
+        switch (action) {
+            case "buy":
+                System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:");
+                switch (in.next()) {
+                    case "1":
+                        Completion(250, 0, 16, 4);
+                        break;
+                    case "2":
+                        Completion(350, 75, 20, 7);
+                        break;
+                    case "3":
+                        Completion(200, 100, 12, 6);
+                        break;
+                    case "back":
+                        return false;
+                    default:
+                        break;
+                }
+                break;
+            case "fill":
+                System.out.println("Write how many ml of water do you want to add: ");
+                this.water += in.nextInt();
+
+                System.out.println("Write how many ml of milk do you want to add: ");
+                this.milk += in.nextInt();
+
+                System.out.println("Write how many grams of coffee beans do you want to add: ");
+                this.beans += in.nextInt();
+
+                System.out.println("Write how many disposable cups of coffee do you want to add: ");
+                this.cups += in.nextInt();
+                break;
+            case "take":
+                System.out.println("I gave you " + this.money + "$");
+                this.money = 0;
+                break;
+            case "remaining":
+                this.Existence();
+                break;
+            case "exit":
+                return true;
+            default:
+                break;
+        }
+        return false;
+
+    }
 }
+
